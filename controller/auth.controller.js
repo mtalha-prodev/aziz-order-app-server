@@ -50,29 +50,24 @@ export const login = async (req, res) => {
         .json({ status: false, message: "passwordn not valid" });
     }
 
-    return res.status(200).json({ status: true, message: "user login ", user });
+    const token = await user.getAuthToken();
+
+    return res
+      .status(200)
+      .json({ status: true, message: "user login ", user, token });
   } catch (error) {
     return res.status(500).json({ status: false, error });
   }
 };
 export const profile = async (req, res) => {
   try {
-    const { userId } = req.params;
-    console.log(userId);
-    if (!userId) {
-      return res.status(400).json({ status: false, message: "id not found " });
-    }
-
-    const user = await Users.findById({ _id: userId });
-    if (!user) {
-      return res
-        .status(400)
-        .json({ status: false, message: "User not Found " });
+    if(!req.user){
+        return sendResponse(res, false, "user not found")
     }
 
     return res
       .status(200)
-      .json({ status: true, message: "user profile ", user });
+      .json({ status: true, message: "user profile ", user:req.user });
   } catch (error) {
     return res
       .status(200)
