@@ -4,7 +4,6 @@ import jwt from "jsonwebtoken";
 
 export const isAuth = async (req, res, next) => {
   try {
-    // console.log(req.headers);
     const token = req?.headers?.authorization?.split(" ")[1];
 
     if (!token) {
@@ -19,4 +18,21 @@ export const isAuth = async (req, res, next) => {
   } catch (error) {
     sendError(res, error);
   }
+};
+
+export const isAuthoriz = (role = []) => {
+  return async (req, res, next) => {
+    try {
+      if (!req.user) {
+        return sendResponse(res, false, "user is not found");
+      }
+      if (!role.includes(req.user.role)) {
+        return sendResponse(res, false, "can't access this page");
+      }
+
+      next();
+    } catch (error) {
+      sendError(res, error.message);
+    }
+  };
 };
