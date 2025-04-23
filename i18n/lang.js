@@ -7,4 +7,5 @@ export const msg = {
   passwordInvalid: "Password invalid",
   requireToken: "Token is Required",
   access: "you are not access",
+  file: "please choose file",
 };

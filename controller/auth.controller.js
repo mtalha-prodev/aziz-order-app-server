@@ -6,6 +6,7 @@ import {
 } from "../helper/response.js";
 import { msg } from "../i18n/lang.js";
 import Users from "../model/auth.model.js";
+import fs from "fs";
 
 export const register = async (req, res) => {
   try {
@@ -123,7 +124,13 @@ export const uploadPic = async (req, res) => {
       return sendResponse(res, false, msg.notFound);
     }
 
-    console.log(req.file.filename);
+    if (!req.file) {
+      return sendResponse(res, false, msg.file);
+    }
+
+    if (req.user.profile_pic != "avatar.png") {
+      fs.unlinkSync(`./public/profile/${req.user.profile_pic}`);
+    }
 
     let data = { profile_pic: req.file.filename };
 
