@@ -21,5 +21,6 @@ router.get(
 
 router.put("/update-profile", isAuth, changeProfile);
 router.put("/change-password", isAuth, changePassword);
+router.put("/change-password", isAuth, changePassword);
 
 export default router;
