@@ -5,8 +5,10 @@ import {
   login,
   profile,
   register,
+  uploadPic,
 } from "../controller/auth.controller.js";
 import { isAuth, isAuthoriz } from "../middleware/isAuth.js";
+import { upload } from "../middleware/storage.js";
 
 const router = express.Router();
 
@@ -21,6 +23,6 @@ router.get(
 
 router.put("/update-profile", isAuth, changeProfile);
 router.put("/change-password", isAuth, changePassword);
-router.put("/change-password", isAuth, changePassword);
+router.put("/upload-picture", isAuth, upload, uploadPic);
 
 export default router;

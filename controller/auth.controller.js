@@ -116,3 +116,23 @@ export const changePassword = async (req, res) => {
     sendError(res, error);
   }
 };
+
+export const uploadPic = async (req, res) => {
+  try {
+    if (!req.user) {
+      return sendResponse(res, false, msg.notFound);
+    }
+
+    console.log(req.file.filename);
+
+    let data = { profile_pic: req.file.filename };
+
+    const update = await Users.findByIdAndUpdate({ _id: req.user._id }, data, {
+      new: true,
+    });
+
+    return sendResponse(res, true, msg.success, update);
+  } catch (error) {
+    sendError(res, error);
+  }
+};

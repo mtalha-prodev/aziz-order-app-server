@@ -23,7 +23,7 @@ export const sendResponse = (res, status, msg, user) => {
       name: user?.name,
       email: user?.email,
       phone: user?.phone,
-      profie_pic: user?.profile_pic,
+      profie_pic: `http://127.0.0.1:3000/profile/${user?.profile_pic}`,
     },
   });
 };
