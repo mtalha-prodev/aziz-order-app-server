@@ -1,4 +1,5 @@
 import { sendError, sendResponse } from "../helper/response.js";
+import { msg } from "../i18n/lang.js";
 import Users from "../model/auth.model.js";
 import jwt from "jsonwebtoken";
 
@@ -7,7 +8,7 @@ export const isAuth = async (req, res, next) => {
     const token = req?.headers?.authorization?.split(" ")[1];
 
     if (!token) {
-      return sendResponse(res, false, "Token is required");
+      return sendResponse(res, false, msg.requireToken);
     }
 
     const decoded = jwt.verify(token, process.env.SECRET_KEY);
@@ -24,10 +25,10 @@ export const isAuthoriz = (role = []) => {
   return async (req, res, next) => {
     try {
       if (!req.user) {
-        return sendResponse(res, false, "user is not found");
+        return sendResponse(res, false, msg.notFound);
       }
       if (!role.includes(req.user.role)) {
-        return sendResponse(res, false, "can't access this page");
+        return sendResponse(res, false, msg.access);
       }
 
       next();

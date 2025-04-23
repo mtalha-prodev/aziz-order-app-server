@@ -1,5 +1,11 @@
 import express from "express";
-import { login, profile, register } from "../controller/auth.controller.js";
+import {
+  changePassword,
+  changeProfile,
+  login,
+  profile,
+  register,
+} from "../controller/auth.controller.js";
 import { isAuth, isAuthoriz } from "../middleware/isAuth.js";
 
 const router = express.Router();
@@ -12,13 +18,8 @@ router.get(
   isAuthoriz(["user", "admin", "manager", "super-admin"]),
   profile
 );
-router.put(
-  "/update-profile",
-  isAuth,
-  isAuthoriz(["user", "super-admin"]),
 
-  profile
-);
-router.put("/update-profile", isAuth, isAuthoriz(["super-admin"]), profile);
+router.put("/update-profile", isAuth, changeProfile);
+router.put("/change-password", isAuth, changePassword);
 
 export default router;
