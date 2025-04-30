@@ -10,9 +10,9 @@ import fs from "fs";
 
 export const register = async (req, res) => {
   try {
-    const { name, phone, password, email } = req.body;
+    const { name, password, email } = req.body;
 
-    if (!name || !phone || !email || !password) {
+    if (!name || !email || !password) {
       return sendResponse(res, false, msg.requiredField);
     }
     const user = await Users.findOne({ email });

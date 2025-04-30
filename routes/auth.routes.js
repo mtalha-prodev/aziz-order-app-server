@@ -24,5 +24,14 @@ router.get(
 router.put("/update-profile", isAuth, changeProfile);
 router.put("/change-password", isAuth, changePassword);
 router.put("/upload-picture", isAuth, upload, uploadPic);
+router.get("/user", (req, res) => {
+  res
+    .status(200)
+    .json({
+      status: true,
+      message: "get user profile",
+      data: { name: "june", age: 20 },
+    });
+});
 
 export default router;
