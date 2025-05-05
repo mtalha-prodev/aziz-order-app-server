@@ -18,3 +18,23 @@ export const postWithoutToken = async (endPoint, data) => {
     console.log(error);
   }
 };
+
+export const getWithToken = async (endPoint) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const resp = await axios.get("/posts/1", {
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+    });
+    // if (!resp.data.status) {
+    //   alert(resp.data.message);
+    //   return;
+    // }
+    return resp;
+  } catch (error) {
+    console.log(error.message);
+  }
+};

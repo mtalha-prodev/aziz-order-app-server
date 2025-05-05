@@ -19,8 +19,6 @@ const Login = () => {
     };
     const res = await postWithoutToken(endPoint.register, data);
 
-    console.log(res, "fkajfkaj");
-
     // localStorage.setItem("token", res.accessToken);
 
     window.location.href = "/";
@@ -33,10 +31,14 @@ const Login = () => {
         password,
       };
 
-      const res = await postWithoutToken(endPoint.login, data);
-      localStorage.setItem("token", res.accessToken);
 
-      window.location.href = "/";
+
+
+      // const res = await postWithoutToken(endPoint.login, data);
+      // localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("token", "dfjkhajhajfkljaljd");
+
+      window.location.href = "/profile";
     } catch (error) {
       console.log(error);
     }
