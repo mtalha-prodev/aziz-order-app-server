@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginImg from "../../assets/img/login.png";
 import { postWithoutToken } from "../../api/fetch";
 import { endPoint } from "../../utils/url";
@@ -13,15 +13,19 @@ const Login = () => {
 
   const handleRegister = async () => {
     const data = {
-      name: "pny",
+      name: name ? name : "pny",
       email,
       password,
     };
     const res = await postWithoutToken(endPoint.register, data);
 
-    // localStorage.setItem("token", res.accessToken);
-
-    window.location.href = "/";
+    localStorage.setItem("token", res.accessToken);
+    localStorage.setItem("user", JSON.stringify(res.content));
+    if (res.content.role == 'user') {
+      window.location.href = "/profile";
+    } else {
+      window.location.href = "/admin";
+    } window.location.href = "/profile";
   };
 
   const handleLogin = async () => {
@@ -31,18 +35,32 @@ const Login = () => {
         password,
       };
 
+      const res = await postWithoutToken(endPoint.login, data);
+      localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("user", JSON.stringify(res.content));
 
-
-
-      // const res = await postWithoutToken(endPoint.login, data);
-      // localStorage.setItem("token", res.accessToken);
-      localStorage.setItem("token", "dfjkhajhajfkljaljd");
-
-      window.location.href = "/profile";
+      if (res.content.role == 'user') {
+        window.location.href = "/profile";
+      } else {
+        window.location.href = "/admin";
+      }
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    let user = localStorage.getItem('user')
+    user = JSON.parse(user)
+    if (user?.content?.role == 'user') {
+      window.location.href = "/"
+    } else {
+      window.location.href = "/admin"
+    }
+
+  }, [])
+
+
 
   return (
     <div className="container  flex items-center justify-center bg-white">
@@ -65,6 +83,9 @@ const Login = () => {
             </label>
             <input
               type="text"
+              name="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-md p-2 mb-4 focus:outline-green-400"
             />

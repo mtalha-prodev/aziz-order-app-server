@@ -10,6 +10,7 @@ export const sendToken = async (res, user, msg) => {
       name: user.name,
       email: user.email,
       phone: user.phone,
+      role: user.role,
       profie_pic: user.profile_pic,
     },
   });
@@ -23,6 +24,7 @@ export const sendResponse = (res, status, msg, user) => {
       name: user?.name,
       email: user?.email,
       phone: user?.phone,
+      role: user?.role,
       profie_pic: `http://127.0.0.1:3000/profile/${user?.profile_pic}`,
     },
   });

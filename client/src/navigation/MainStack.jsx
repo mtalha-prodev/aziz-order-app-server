@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Offers from "../pages/Offers";
@@ -8,15 +8,32 @@ import Login from "../pages/auth/Login";
 import Profile from "../pages/Profile";
 
 function MainStack() {
+  const [role, setRole] = useState('user')
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/offers" element={<Offers />} />
-      <Route path="/flatsale" element={<FlatSale />} />
-      <Route path="/dailydeals" element={<DailyDeals />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/profile" element={<Profile />} />
-    </Routes>
+    <>
+      {
+        role === 'user' &&
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/offers" element={<Offers />} />
+          <Route path="/flatsale" element={<FlatSale />} />
+          <Route path="/dailydeals" element={<DailyDeals />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
+        </Routes>
+      }
+      {
+        role === 'amdin' &&
+
+        <Routes >
+          <Route path="/adminone" element={<Dashaboard />} />
+          <Route path="/admin" element={<Dashaboard />} />
+          <Route path="/admin" element={<Dashaboard />} />
+          <Route path="/admin" element={<Dashaboard />} />
+        </Routes>
+      }
+    </>
+
   );
 }
 

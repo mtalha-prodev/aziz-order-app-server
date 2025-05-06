@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getWithToken } from "../api/fetch";
+import { getWithToken, updateWithToken } from "../api/fetch";
 import { endPoint } from "../utils/url";
 import Spinner from "../components/Loader";
 
@@ -7,17 +7,23 @@ function Profile() {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const [name, setName] = useState('')
+  const [role, setRole] = useState('')
+
+
   const getUser = async () => {
     try {
 
-      const user = await getWithToken(endPoint.user)
-      console.log(user)
+      const user = await getWithToken(endPoint.profile)
 
-      if (user.status != 200) {
+
+      if (!user.status) {
         alert("Error")
       }
 
-      setProfile(user.data)
+      setProfile(user)
+      setName(user?.content?.name)
+      setRole(user?.content?.role)
 
       setTimeout(() => {
         setLoading(false)
@@ -27,6 +33,36 @@ function Profile() {
       console.log(error.message)
     }
   }
+
+
+  const update = async () => {
+    try {
+
+      if (!name || !role) {
+        alert('Please fill all fields')
+        return
+      }
+      const data = {
+        name: name,
+        role: role
+      }
+
+
+      const update = await updateWithToken(endPoint.updateProfile, data)
+
+      if (!update.status) {
+        alert("error")
+        return
+
+      }
+
+      setProfile(update)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
 
   useEffect(() => {
     getUser()
@@ -45,9 +81,21 @@ function Profile() {
         Logout
       </button>
 
-      <h1>user Id: {profile?.userId}</h1>
-      <h1>heading title: {profile?.title}</h1>
-      <h1>text body: {profile?.body}</h1>
+      <h1>user name: {profile?.content?.name}</h1>
+      <h1>usr role: {profile?.content?.role}</h1>
+      <h1>user email: {profile?.content?.email}</h1>
+      <img src={profile?.content?.profie_pic} className="w-16  border p-2 bg-slate-100 rounded-full ml-10" alt="" srcset="" />
+
+
+      <div className="flex justify-center items-center flex-col" >
+
+        <input type="text" className="border border-gray p-1" placeholder="name..." name="name" value={name} onChange={(e) => setName(e.target.value)
+        } />
+        <input type="text" placeholder="role..." className="border border-gray p-1" name="role" value={role} onChange={(e) => setRole(e.target.value)
+        } />
+        <button className="bg-rose-500 p-2 rounded-sm" onClick={() => update()} >Update</button>
+      </div>
+
 
       {
         loading &&

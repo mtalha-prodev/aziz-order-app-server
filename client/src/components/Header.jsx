@@ -20,7 +20,6 @@ const Header = () => {
     getToken();
   }, [token]);
 
-  console.log(token, "token");
 
   return (
     <>
