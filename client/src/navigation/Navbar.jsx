@@ -8,7 +8,7 @@ function Navbar() {
 
   const { value, product } = useSelector((state) => state.counter)
 
-  console.log(product)
+
   const [val, setVal] = useState(true);
   const [menu, setMenu] = useState(false);
 

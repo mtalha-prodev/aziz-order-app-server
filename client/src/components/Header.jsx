@@ -2,23 +2,16 @@ import React, { useEffect, useState } from "react";
 import FlagDropdown from "./FlagDropdown";
 import { header } from "../utils/tailwind/header";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [show, setShow] = useState(false);
-  const [token, setToken] = useState("");
-
+  const { token } = useSelector((state) => state.auth)
+  console.log(token)
   const dropdown = () => {
     setShow(!show);
   };
 
-  const getToken = () => {
-    const accToken = localStorage.getItem("token");
-    setToken(accToken);
-  };
-
-  useEffect(() => {
-    getToken();
-  }, [token]);
 
 
   return (

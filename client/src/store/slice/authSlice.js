@@ -1,21 +1,30 @@
-
-import {createSlice} from '@reduxjs/toolkit';
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    value:0
-}
+  loading: false,
+  token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+  role: localStorage.getItem("role") ? localStorage.getItem("role") : "admin",
+  user: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : null,
+  message: null,
+};
 
-const counterSlice = createSlice({
-    name:"counter",
-    initialState,
-    reducers:{
-        increment:()=>{},
-        decrement:()=>{}
-    }
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    login: (state, actions) => {
+      state.loading = true;
+      const { accessToken, content, message } = actions.payload;
+      state.token = accessToken;
+      state.role = content?.role;
+      state.user = content;
+      state.message = message;
+    },
+  },
+});
 
-})
+export const { login } = authSlice.actions;
 
-export const  {increment,decrement} = counterSlice.actions
-
-export default counterSlice.reducer
+export default authSlice.reducer;

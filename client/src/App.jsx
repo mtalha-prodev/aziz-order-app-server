@@ -7,27 +7,12 @@ import Dashboard from "./navigation/Dashboard";
 import Navbar from "./navigation/navbar";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import { useSelector } from "react-redux";
 
 function App() {
+  const { role } = useSelector((state) => state.auth)
 
-  const [role, setRole] = useState('user')
-
-  const getRole = () => {
-    let user = localStorage.getItem('user')
-    user = JSON.parse(user)
-
-    
-    setRole(user?.role)
-  }
-
-  useEffect(() => {
-    getRole()
-  }, [])
-
-  
-
-  const main = true;
-
+  console.log(role)
   return (
     <BrowserRouter>
       {role != 'user' ? (

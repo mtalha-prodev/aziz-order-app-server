@@ -3,6 +3,8 @@ import loginImg from "../../assets/img/login.png";
 import { postWithoutToken } from "../../api/fetch";
 import { endPoint } from "../../utils/url";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../store/slice/authSlice";
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -10,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const { token, role } = useSelector((state) => state.auth)
 
   const handleRegister = async () => {
     const data = {
@@ -37,12 +41,15 @@ const Login = () => {
 
       const res = await postWithoutToken(endPoint.login, data);
       localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("role", res.content.role);
       localStorage.setItem("user", JSON.stringify(res.content));
+      console.log(res)
+      dispatch(login(res))
 
       if (res.content.role == 'user') {
-        window.location.href = "/profile";
+        navigate("/profile");
       } else {
-        window.location.href = "/admin";
+        navigate("/admin");
       }
     } catch (error) {
       console.log(error);
@@ -50,12 +57,8 @@ const Login = () => {
   };
 
   useEffect(() => {
-    let user = localStorage.getItem('user')
-    user = JSON.parse(user)
-    if (user?.content?.role == 'user') {
-      window.location.href = "/"
-    } else {
-      window.location.href = "/admin"
+    if (role == 'user' && token) {
+      navigate("/");
     }
 
   }, [])

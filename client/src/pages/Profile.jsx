@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getWithToken, updateWithToken } from "../api/fetch";
 import { endPoint } from "../utils/url";
 import Spinner from "../components/Loader";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Profile() {
   const [profile, setProfile] = useState({});
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
+  const { user } = useSelector((state) => state.auth)
 
   const [name, setName] = useState('')
   const [role, setRole] = useState('')
@@ -65,7 +69,9 @@ function Profile() {
 
 
   useEffect(() => {
-    getUser()
+    setName(user?.name)
+    setRole(user?.role)
+    // getUser()
   }, [])
 
   return (
@@ -74,17 +80,16 @@ function Profile() {
       <button
         onClick={() => {
           localStorage.clear();
-          window.location.href = '/';
-          // getUser()
+          navigate('/');
         }}
       >
         Logout
       </button>
 
-      <h1>user name: {profile?.content?.name}</h1>
-      <h1>usr role: {profile?.content?.role}</h1>
-      <h1>user email: {profile?.content?.email}</h1>
-      <img src={profile?.content?.profie_pic} className="w-16  border p-2 bg-slate-100 rounded-full ml-10" alt="" srcset="" />
+      <h1>user name: {user?.name}</h1>
+      <h1>usr role: {user?.role}</h1>
+      <h1>user email: {user?.email}</h1>
+      <img src={user?.profie_pic} className="w-16  border p-2 bg-slate-100 rounded-full ml-10" alt="" srcset="" />
 
 
       <div className="flex justify-center items-center flex-col" >
@@ -97,10 +102,10 @@ function Profile() {
       </div>
 
 
-      {
+      {/* {
         loading &&
         <Spinner loading={loading} />
-      }
+      } */}
     </div>
   );
 }
