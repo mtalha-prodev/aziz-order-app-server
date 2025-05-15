@@ -1,11 +1,26 @@
 import React from "react";
 import { popularProduct } from "../utils/objectData/cardData";
+import { useDispatch } from 'react-redux';
+import { addProduct, increment } from "../store/slice/counterSlice";
 
 function Cards() {
+  const dispatch = useDispatch();
+
+  const addToCart = (item) => {
+
+    dispatch(increment())
+
+    dispatch(addProduct(item))
+  }
+
+
+
   return (
     <div className="flex flex-wrap gap-4 justify-between">
       {popularProduct.map((item, index) => (
         <div
+
+          onClick={() => addToCart(item)}
           key={index}
           className="relative w-72 rounded-xl  shadow-lg bg-white text-black border border-gray-200"
         >

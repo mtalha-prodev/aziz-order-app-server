@@ -30,7 +30,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {role == 'user' ? (
+      {role != 'user' ? (
         <>
           <Header />
           <Navbar />

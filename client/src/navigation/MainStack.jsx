@@ -11,27 +11,17 @@ function MainStack() {
   const [role, setRole] = useState('user')
   return (
     <>
-      {
-        role === 'user' &&
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/offers" element={<Offers />} />
-          <Route path="/flatsale" element={<FlatSale />} />
-          <Route path="/dailydeals" element={<DailyDeals />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      }
-      {
-        role === 'amdin' &&
 
-        <Routes >
-          <Route path="/adminone" element={<Dashaboard />} />
-          <Route path="/admin" element={<Dashaboard />} />
-          <Route path="/admin" element={<Dashaboard />} />
-          <Route path="/admin" element={<Dashaboard />} />
-        </Routes>
-      }
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/offers" element={<Offers />} />
+        <Route path="/flatsale" element={<FlatSale />} />
+        <Route path="/dailydeals" element={<DailyDeals />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+
+
     </>
 
   );
