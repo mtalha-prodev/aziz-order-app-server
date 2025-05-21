@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "../action/atuhAction";
+import { loginPost } from "../action/auth";
 
 const initialState = {
   loading: false,
