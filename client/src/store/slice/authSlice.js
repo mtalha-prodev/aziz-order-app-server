@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { loginPost } from "../action/atuhAction";
 
 const initialState = {
   loading: false,
@@ -22,6 +23,22 @@ const authSlice = createSlice({
       state.user = content;
       state.message = message;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loginPost.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(loginPost.fulfilled, (state, actions) => {
+      state.loading = false;
+      const { accessToken, content, message } = actions.payload;
+      state.token = accessToken;
+      state.role = content?.role;
+      state.user = content;
+      state.message = message;
+    });
+    builder.addCase(loginPost.rejected, (state) => {
+      state.loading = false;
+    });
   },
 });
 

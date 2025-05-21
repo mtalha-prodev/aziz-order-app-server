@@ -5,6 +5,7 @@ import { endPoint } from "../../utils/url";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/slice/authSlice";
+import { loginPost } from "../../store/action/atuhAction";
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -21,6 +22,7 @@ const Login = () => {
       email,
       password,
     };
+    
     const res = await postWithoutToken(endPoint.register, data);
 
     localStorage.setItem("token", res.accessToken);
@@ -36,9 +38,9 @@ const Login = () => {
     try {
       const data = {
         email,
-        password,
+        password, 
       };
-
+      // dispatch(loginPost(data))
       const res = await postWithoutToken(endPoint.login, data);
       localStorage.setItem("token", res.accessToken);
       localStorage.setItem("role", res.content.role);
