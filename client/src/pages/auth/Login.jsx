@@ -18,7 +18,7 @@ const Login = () => {
 
   const handleRegister = async () => {
     const data = {
-      name: name ? name : "pny",
+      name: name ? name : "navttac",
       email,
       password,
     };
@@ -28,10 +28,10 @@ const Login = () => {
     localStorage.setItem("token", res.accessToken);
     localStorage.setItem("user", JSON.stringify(res.content));
     if (res.content.role == 'user') {
-      window.location.href = "/profile";
+      navigate("/profile");
     } else {
-      window.location.href = "/admin";
-    } window.location.href = "/profile";
+      navigate("/admin");
+    }
   };
 
   const handleLogin = async () => {
@@ -40,7 +40,8 @@ const Login = () => {
         email,
         password,
       };
-      // dispatch(loginPost(data))
+      // const resp = await dispatch(loginPost(data)).unwrap()
+      // console.log(resp)
       const res = await postWithoutToken(endPoint.login, data);
       localStorage.setItem("token", res.accessToken);
       localStorage.setItem("role", res.content.role);
