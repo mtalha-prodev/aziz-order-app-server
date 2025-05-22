@@ -40,14 +40,8 @@ const Login = () => {
         email,
         password,
       };
-      // const resp = await dispatch(loginPost(data)).unwrap()
-      // console.log(resp)
-      const res = await postWithoutToken(endPoint.login, data);
-      localStorage.setItem("token", res.accessToken);
-      localStorage.setItem("role", res.content.role);
-      localStorage.setItem("user", JSON.stringify(res.content));
-      console.log(res)
-      dispatch(login(res))
+
+      const res = await dispatch(loginPost(data))
 
       if (res.content.role == 'user') {
         navigate("/profile");

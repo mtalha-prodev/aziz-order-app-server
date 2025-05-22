@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { loginPost } from "../action/auth";
+import { loginPost, registerPost } from "../action/auth";
 
 const initialState = {
   loading: false,
@@ -9,6 +9,7 @@ const initialState = {
     ? JSON.parse(localStorage.getItem("user"))
     : null,
   message: null,
+  error: null,
 };
 
 const authSlice = createSlice({
@@ -22,26 +23,53 @@ const authSlice = createSlice({
       state.role = content?.role;
       state.user = content;
       state.message = message;
+      localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("role", content?.role);
+      localStorage.setItem("user", JSON.stringify(res.content));
+    },
+    customError: (state, {payload}) => {
+      state.loading = false;
+      state.error = payload? payload: "your request fail";
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginPost.pending, (state) => {
+    builder.addCase(loginPost.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(loginPost.fulfilled, (state, actions) => {
+    builder.addCase(loginPost.rejected, (state, action) => {
       state.loading = false;
+      state.error = "your request fail";
+    });
+    builder.addCase(loginPost.fulfilled, (state, { payload }) => {
       const { accessToken, content, message } = actions.payload;
       state.token = accessToken;
       state.role = content?.role;
       state.user = content;
       state.message = message;
+      localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("role", content?.role);
+      localStorage.setItem("user", JSON.stringify(res.content));
     });
-    builder.addCase(loginPost.rejected, (state) => {
+    builder.addCase(registerPost.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(registerPost.rejected, (state, action) => {
       state.loading = false;
+      state.error = "your request fail";
+    });
+    builder.addCase(registerPost.fulfilled, (state, { payload }) => {
+      const { accessToken, content, message } = actions.payload;
+      state.token = accessToken;
+      state.role = content?.role;
+      state.user = content;
+      state.message = message;
+      localStorage.setItem("token", res.accessToken);
+      localStorage.setItem("role", content?.role);
+      localStorage.setItem("user", JSON.stringify(res.content));
     });
   },
 });
 
-export const { login } = authSlice.actions;
+export const { login,customError } = authSlice.actions;
 
 export default authSlice.reducer;
