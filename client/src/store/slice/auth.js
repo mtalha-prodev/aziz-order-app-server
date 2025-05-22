@@ -22,7 +22,7 @@ const authSlice = createSlice({
       state.token = accessToken;
       state.role = content?.role;
       state.user = content;
-      state.message = message;
+     
       localStorage.setItem("token", res.accessToken);
       localStorage.setItem("role", content?.role);
       localStorage.setItem("user", JSON.stringify(res.content));
@@ -33,22 +33,17 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginPost.pending, (state, action) => {
+    builder.addCase(loginPost.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(loginPost.rejected, (state, action) => {
+    builder.addCase(loginPost.rejected, (state) => {
       state.loading = false;
       state.error = "your request fail";
     });
     builder.addCase(loginPost.fulfilled, (state, { payload }) => {
-      const { accessToken, content, message } = actions.payload;
-      state.token = accessToken;
-      state.role = content?.role;
-      state.user = content;
-      state.message = message;
-      localStorage.setItem("token", res.accessToken);
-      localStorage.setItem("role", content?.role);
-      localStorage.setItem("user", JSON.stringify(res.content));
+      state.loading = false;
+      state.message = payload.message;
+      
     });
     builder.addCase(registerPost.pending, (state, action) => {
       state.loading = true;

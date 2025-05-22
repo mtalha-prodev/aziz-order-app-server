@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { postWithoutToken } from "../../api/fetch";
 import { endPoint } from "../../utils/url";
-import { customError } from "../slice/auth";
+import { customError, login } from "../slice/auth";
 
 export const loginPost = createAsyncThunk(
   "login/loginPost",
@@ -11,6 +11,8 @@ export const loginPost = createAsyncThunk(
 
       if (!res.status) {
         dispatch(customError());
+      }else{
+        dispatch(login(res))
       }
 
       return res;
