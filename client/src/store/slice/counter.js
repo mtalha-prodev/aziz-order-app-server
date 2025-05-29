@@ -14,6 +14,8 @@ const counterSlice = createSlice({
     },
     decrement: (state) => {
         state.value -= 1;
+        state.value -= 1;
+        state.value -= 1;
     },
     addProduct:(state,actions)=>{
         state.product.push(actions.payload)
